@@ -10,7 +10,7 @@ using System.Security;
 namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
 {
     [TestClass]
-    public class CreateOpportunityUCI
+    public class CreateOpportunityUCI : ExtentReportManager
     {
 
         private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
@@ -21,6 +21,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
         [TestMethod]
         public void UCITestCreateOpportunity()
         {
+            CreateTest("Test_01", "Verify the ability to create a new opportunity");
             var client = new WebClient(TestSettings.Options);
             using (var xrmApp = new XrmApp(client))
             {
@@ -37,6 +38,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
 
                 xrmApp.Entity.Save();
 
+                LogTestStep(AventStack.ExtentReports.Status.Pass, "Passed");
+
+                test.Pass("Test Passed");
+
             }
             
         }
@@ -44,6 +49,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
         [TestMethod]
         public void UCITestCreateOpportunity_SetHeaderDate()
         {
+            CreateTest("Test_02", "Verify the ability to create a new opportunity with estimated close date");
             var client = new WebClient(TestSettings.Options);
             using (var xrmApp = new XrmApp(client))
             {
@@ -65,12 +71,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
                 var commandResult = xrmApp.Entity.GetHeaderValue(new DateTimeControl("estimatedclosedate"));
                 DateTime? date = commandResult;
                 Assert.AreEqual(expectedDate, date);
+                LogTestStep(AventStack.ExtentReports.Status.Pass, "Passed");
             }
         }
 
         [TestMethod]
         public void UCITestCreateOpportunity_ClearHeaderDate()
         {
+            CreateTest("Test_02", "Verify the ability to create a new opportunity after clearing the estimated close date");
             var client = new WebClient(TestSettings.Options);
             using (var xrmApp = new XrmApp(client))
             {
@@ -92,10 +100,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
                 var control = new DateTimeControl("estimatedclosedate");
                 DateTime? date = xrmApp.Entity.GetHeaderValue(control);
                 Assert.AreEqual(expectedDate, date);
+                LogTestStep(AventStack.ExtentReports.Status.Pass, "Passed");
 
                 xrmApp.Entity.ClearHeaderValue(control);
                 date = xrmApp.Entity.GetHeaderValue(control);
                 Assert.AreEqual(null, date);
+                LogTestStep(AventStack.ExtentReports.Status.Pass, "Passed");
             }
         }
 
