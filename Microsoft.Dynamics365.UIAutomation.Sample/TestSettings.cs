@@ -123,7 +123,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
     public static class UCIAppName
     {
-        public const string Sales = "Sales Hub";
+        public const string Sales = "Neudesic Homes - Sales";
         public const string CustomerService = "Customer Service Hub";
         public const string Project = "Project Resource Hub";
         public const string FieldService = "Field Resource Hub";
